@@ -5,3 +5,4 @@ authors = ["Ken Cruz <ken@kencruz.ca>"]
 edition = "2018"
 
 [dependencies]
+sdl2 = "0.32.1"
