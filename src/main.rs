@@ -1,5 +1,6 @@
 extern crate sdl2;
 
+use std::collections::HashSet;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
@@ -33,6 +34,17 @@ pub fn main() -> Result<(), String> {
                 } => break 'running,
                 _ => {}
             }
+        }
+
+        // Create a set of pressed Keys.
+        let keys: HashSet<Keycode> = events
+            .keyboard_state()
+            .pressed_scancodes()
+            .filter_map(Keycode::from_scancode)
+            .collect();
+
+        if !keys.is_empty() {
+            println!("keys: {:?}", keys);
         }
 
         // render
