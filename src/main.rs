@@ -21,7 +21,7 @@ pub fn main() -> Result<(), String> {
     let mut canvas = window.into_canvas().build().unwrap();
     let mut events = sdl_context.event_pump()?;
 
-    let rect = Rect::new(50, 100, 20, 150);
+    let mut rect = Rect::new(50, 100, 20, 150);
 
     'running: loop {
         // event
@@ -45,6 +45,15 @@ pub fn main() -> Result<(), String> {
 
         if !keys.is_empty() {
             println!("keys: {:?}", keys);
+        }
+
+        // loop
+        if keys.contains(&Keycode::Up) {
+            rect.set_y(rect.top() - 5);
+        }
+
+        if keys.contains(&Keycode::Down) {
+            rect.set_y(rect.top() + 5);
         }
 
         // render
