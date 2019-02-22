@@ -1,10 +1,11 @@
 extern crate sdl2;
 
-use std::collections::HashSet;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
-use sdl2::rect::{Rect};
+use sdl2::rect::{Point, Rect};
+use std::collections::HashSet;
+use std::path::Path;
 use std::time::Duration;
 
 pub fn main() -> Result<(), String> {
@@ -19,9 +20,24 @@ pub fn main() -> Result<(), String> {
         .unwrap();
 
     let mut canvas = window.into_canvas().build().unwrap();
+    let texture_creator = canvas.texture_creator();
     let mut events = sdl_context.event_pump()?;
 
-    let mut rect = Rect::new(50, 100, 20, 150);
+    let mut player = Rect::new(50, 225, 20, 150);
+    let score = Rect::from_center(Point::new(400, 30), 100, 40);
+
+    let path: &Path = Path::new("../droid.ttf");
+    let ttf_context = sdl2::ttf::init().map_err(|e| e.to_string())?;
+    let font = ttf_context.load_font(path, 18)?;
+
+    let surface = font
+        .render("0 - 0")
+        .blended(Color::RGBA(255, 255, 255, 255))
+        .map_err(|e| e.to_string())?;
+
+    let texture = texture_creator
+        .create_texture_from_surface(&surface)
+        .map_err(|e| e.to_string())?;
 
     'running: loop {
         // event
@@ -49,11 +65,11 @@ pub fn main() -> Result<(), String> {
 
         // loop
         if keys.contains(&Keycode::Up) {
-            rect.set_y(rect.top() - 5);
+            player.set_y(player.top() - 5);
         }
 
         if keys.contains(&Keycode::Down) {
-            rect.set_y(rect.top() + 5);
+            player.set_y(player.top() + 5);
         }
 
         // render
@@ -62,7 +78,10 @@ pub fn main() -> Result<(), String> {
         canvas.clear();
         // rectangle
         canvas.set_draw_color(Color::RGB(255, 255, 255));
-        canvas.fill_rect(rect)?;
+        canvas.fill_rect(player)?;
+        //score
+        canvas.copy(&texture, None, score)?;
+
         canvas.present();
 
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
