@@ -24,6 +24,7 @@ pub fn main() -> Result<(), String> {
     let mut events = sdl_context.event_pump()?;
 
     let mut player = Rect::new(50, 225, 20, 150);
+    let cpu = Rect::new(730, 225, 20, 150);
     let score = Rect::from_center(Point::new(400, 30), 100, 40);
 
     let path: &Path = Path::new("../droid.ttf");
@@ -79,6 +80,7 @@ pub fn main() -> Result<(), String> {
         // rectangle
         canvas.set_draw_color(Color::RGB(255, 255, 255));
         canvas.fill_rect(player)?;
+        canvas.fill_rect(cpu)?;
         //score
         canvas.copy(&texture, None, score)?;
 
