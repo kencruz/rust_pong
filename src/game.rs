@@ -9,7 +9,6 @@ use std::time::Duration;
 pub struct Game {}
 
 impl Game {
-
     pub fn run(&self) {
         // initialize
         let sdl_context = sdl2::init().unwrap();
@@ -31,16 +30,18 @@ impl Game {
 
         let path: &Path = Path::new("../droid.ttf");
         let ttf_context = sdl2::ttf::init().map_err(|e| e.to_string()).unwrap();
-        let font = ttf_context.load_font(path, 18).unwrap();
+        let font = ttf_context.load_font(path, 64).unwrap();
 
         let surface = font
             .render("0 - 0")
             .blended(Color::RGBA(255, 255, 255, 255))
-            .map_err(|e| e.to_string()).unwrap();
+            .map_err(|e| e.to_string())
+            .unwrap();
 
         let texture = texture_creator
             .create_texture_from_surface(&surface)
-            .map_err(|e| e.to_string()).unwrap();
+            .map_err(|e| e.to_string())
+            .unwrap();
 
         'running: loop {
             // event
