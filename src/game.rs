@@ -1,3 +1,4 @@
+use crate::paddle::{Paddle, Position};
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
@@ -24,8 +25,8 @@ impl Game {
         let texture_creator = canvas.texture_creator();
         let mut events = sdl_context.event_pump().unwrap();
 
-        let mut player = Rect::new(50, 225, 20, 150);
-        let cpu = Rect::new(730, 225, 20, 150);
+        let mut player = Paddle::new(Position::Left);
+        let cpu = Paddle::new(Position::Right);
         let score = Rect::from_center(Point::new(400, 30), 100, 40);
 
         let path: &Path = Path::new("../droid.ttf");
@@ -69,11 +70,11 @@ impl Game {
 
             // loop
             if keys.contains(&Keycode::Up) {
-                player.set_y(player.top() - 5);
+                player.shape.set_y(player.shape.top() - 5);
             }
 
             if keys.contains(&Keycode::Down) {
-                player.set_y(player.top() + 5);
+                player.shape.set_y(player.shape.top() + 5);
             }
 
             // render
@@ -82,8 +83,8 @@ impl Game {
             canvas.clear();
             // rectangle
             canvas.set_draw_color(Color::RGB(255, 255, 255));
-            canvas.fill_rect(player).unwrap();
-            canvas.fill_rect(cpu).unwrap();
+            canvas.fill_rect(player.shape).unwrap();
+            canvas.fill_rect(cpu.shape).unwrap();
             //score
             canvas.copy(&texture, None, score).unwrap();
 
