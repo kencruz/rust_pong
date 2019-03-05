@@ -6,14 +6,14 @@ pub struct Coords {
 }
 
 pub struct Velocity {
-    x: i32,
+    pub x: i32,
     y: i32,
 }
 
 pub struct Ball {
     pub shape: Rect,
     pos: Coords,
-    vel: Velocity,
+    pub vel: Velocity,
 }
 
 impl Ball {
@@ -21,7 +21,7 @@ impl Ball {
         Ball {
             shape: Rect::from_center(Point::new(400, 300), 10, 10),
             pos: Coords{x: 400, y: 300},
-            vel: Velocity{ x: 5, y: -2},
+            vel: Velocity{ x: 5, y: 0},
         }
     }
 
