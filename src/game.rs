@@ -79,15 +79,24 @@ impl Game {
                 player.shape.set_y(player.shape.top() + 5);
             }
 
-            if (ball.shape.center().x() == player.shape.right()
+            if ball.shape.center().x() <= player.shape.right()
+                && ball.shape.center().x() >= player.shape.left()
                 && ball.shape.center().y() > player.shape.top()
-                && ball.shape.center().y() < player.shape.bottom()) ||
-                (ball.shape.center().x() == cpu.shape.left()
-                && ball.shape.center().y() > cpu.shape.top()
-                && ball.shape.center().y() < cpu.shape.bottom())
+                && ball.shape.center().y() < player.shape.bottom()
+                && ball.vel.x < 0
             {
                 ball.vel.x *= -1;
             }
+
+            if ball.shape.center().x() >= cpu.shape.left()
+                && ball.shape.center().x() <= cpu.shape.right()
+                && ball.shape.center().y() > cpu.shape.top()
+                && ball.shape.center().y() < cpu.shape.bottom()
+                && ball.vel.x > 0
+            {
+                ball.vel.x *= -1;
+            }
+
             ball.update();
 
             // render
