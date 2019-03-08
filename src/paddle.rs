@@ -14,8 +14,8 @@ pub struct Paddle {
 impl Paddle {
     pub fn new(pos: Position) -> Paddle {
         let shape = match &pos {
-            Position::Left => Rect::new(50, 225, 20, 150),
-            Position::Right => Rect::new(730, 225, 20, 150),
+            Position::Left => Rect::new(50, 225, 20, 140),
+            Position::Right => Rect::new(730, 225, 20, 140),
         };
 
         Paddle {
