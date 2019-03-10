@@ -1,18 +1,12 @@
 use sdl2::rect::{Rect, Point};
 
-pub struct Coords {
-    x: i32,
-    y: i32,
-}
-
 pub struct Velocity {
     pub x: i32,
-    y: i32,
+    pub y: i32,
 }
 
 pub struct Ball {
     pub shape: Rect,
-    pos: Coords,
     pub vel: Velocity,
 }
 
@@ -20,7 +14,6 @@ impl Ball {
     pub fn new() -> Ball {
         Ball {
             shape: Rect::from_center(Point::new(400, 300), 10, 10),
-            pos: Coords{x: 400, y: 300},
             vel: Velocity{ x: 5, y: 0},
         }
     }
