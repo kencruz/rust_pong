@@ -79,26 +79,26 @@ impl Game {
                 player.shape.set_y(player.shape.top() + 5);
             }
 
-            if ball.shape.has_intersection(player.shape) && ball.vel.x < 0
+            if ball.shape.has_intersection(player.shape) && ball.vel.x < 0.0
             {
-                ball.vel.x *= -1;
+                ball.vel.x *= -1.0;
                 if ball.shape.y() - player.shape.y() < 140 {
-                    ball.vel.y = 2;
+                    ball.vel.y = 1.0;
                 }
                 if ball.shape.y() - player.shape.y() < 105 {
-                    ball.vel.y = 1;
+                    ball.vel.y = 0.5;
                 }
                 if ball.shape.y() - player.shape.y() < 70 {
-                    ball.vel.y = -1;
+                    ball.vel.y = -0.5;
                 }
                 if ball.shape.y() - player.shape.y() < 35 {
-                    ball.vel.y = -2;
+                    ball.vel.y = -1.0;
                 }
             }
 
-            if ball.shape.has_intersection(cpu.shape) && ball.vel.x > 0
+            if ball.shape.has_intersection(cpu.shape) && ball.vel.x > 0.0
             {
-                ball.vel.x *= -1;
+                ball.vel.x *= -1.0;
             }
 
 
