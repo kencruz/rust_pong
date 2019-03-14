@@ -106,6 +106,25 @@ impl Game {
             if ball.shape.has_intersection(cpu.shape) && ball.vel.x > 0.0
             {
                 ball.vel.x *= -1.0;
+                if ball.shape.y() - cpu.shape.y() < 150 {
+                    ball.vel.y = 2.0;
+                }
+                if ball.shape.y() - cpu.shape.y() < 125 {
+                    ball.vel.y = 1.0;
+                }
+                if ball.shape.y() - cpu.shape.y() < 100 {
+                    ball.vel.y = 0.2;
+                }
+                if ball.shape.y() - cpu.shape.y() < 75 {
+                    ball.vel.y = -0.2;
+                }
+                if ball.shape.y() - cpu.shape.y() < 50 {
+                    ball.vel.y = -1.0;
+                }
+                if ball.shape.y() - cpu.shape.y() < 25 {
+                    ball.vel.y = -2.0;
+                }
+                println!("Velocity is {}", ball.vel.y);
             }
 
 
