@@ -27,7 +27,7 @@ impl Game {
         let mut events = sdl_context.event_pump().unwrap();
 
         let mut player = Paddle::new(Position::Left);
-        let cpu = Paddle::new(Position::Right);
+        let mut cpu = Paddle::new(Position::Right);
         let mut ball = Ball::new();
         let score = Rect::from_center(Point::new(400, 30), 100, 40);
 
@@ -77,6 +77,16 @@ impl Game {
 
             if keys.contains(&Keycode::Down) && player.shape.y() + (player.shape.height() as i32) < 600 {
                 player.shape.set_y(player.shape.top() + 5);
+            }
+
+
+            // CPU AI
+            if ball.shape.y() < cpu.shape.y() {
+                cpu.shape.set_y(cpu.shape.top() - 3);
+            }
+
+            if ball.shape.y() > cpu.shape.y() + (cpu.shape.height() as i32) {
+                cpu.shape.set_y(cpu.shape.top() + 3);
             }
 
             if ball.shape.has_intersection(player.shape) && ball.vel.x < 0.0
