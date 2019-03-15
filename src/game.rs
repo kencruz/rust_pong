@@ -71,11 +71,11 @@ impl Game {
             }
 
             // loop
-            if keys.contains(&Keycode::Up) {
+            if keys.contains(&Keycode::Up) && player.shape.y() > 0 {
                 player.shape.set_y(player.shape.top() - 5);
             }
 
-            if keys.contains(&Keycode::Down) {
+            if keys.contains(&Keycode::Down) && player.shape.y() + (player.shape.height() as i32) < 600 {
                 player.shape.set_y(player.shape.top() + 5);
             }
 
