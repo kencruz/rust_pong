@@ -81,14 +81,15 @@ impl Game {
 
 
             // CPU AI
-            if ball.shape.y() < cpu.shape.y() {
+            if ball.shape.y() < cpu.shape.y() && ball.shape.x() > 400 {
                 cpu.shape.set_y(cpu.shape.top() - 3);
             }
 
-            if ball.shape.y() > cpu.shape.y() + (cpu.shape.height() as i32) {
+            if ball.shape.y() > cpu.shape.y() + (cpu.shape.height() as i32) && ball.shape.x() > 400 {
                 cpu.shape.set_y(cpu.shape.top() + 3);
             }
 
+            // change angle of ball when colliding with paddle
             if ball.shape.has_intersection(player.shape) && ball.vel.x < 0.0
             {
                 ball.vel.x *= -1.0;
