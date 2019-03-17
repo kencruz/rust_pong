@@ -81,35 +81,26 @@ impl Game {
 
 
             // CPU AI
-            if ball.shape.y() < cpu.shape.y() && ball.shape.x() > 400 {
+            if ball.shape.y() < cpu.shape.y() && ball.shape.x() > 300 {
                 cpu.shape.set_y(cpu.shape.top() - 3);
             }
 
-            if ball.shape.y() > cpu.shape.y() + (cpu.shape.height() as i32) && ball.shape.x() > 400 {
+            if ball.shape.y() > cpu.shape.y() + (cpu.shape.height() as i32) && ball.shape.x() > 300 {
                 cpu.shape.set_y(cpu.shape.top() + 3);
             }
 
             // change angle of ball when colliding with paddle
+
             if ball.shape.has_intersection(player.shape) && ball.vel.x < 0.0
             {
                 ball.vel.x *= -1.0;
-                if ball.shape.y() - player.shape.y() < 150 {
-                    ball.vel.y = 2.0;
-                }
-                if ball.shape.y() - player.shape.y() < 125 {
-                    ball.vel.y = 1.0;
-                }
-                if ball.shape.y() - player.shape.y() < 100 {
-                    ball.vel.y = 0.2;
-                }
-                if ball.shape.y() - player.shape.y() < 75 {
-                    ball.vel.y = -0.2;
-                }
-                if ball.shape.y() - player.shape.y() < 50 {
-                    ball.vel.y = -1.0;
-                }
-                if ball.shape.y() - player.shape.y() < 25 {
-                    ball.vel.y = -2.0;
+                match ball.shape.y() - player.shape.y() {
+                    x if x < 150 && x >= 125 => ball.vel.y = 2.0,
+                    x if x < 125 && x >= 100 => ball.vel.y = 1.0,
+                    x if x < 100 && x >= 75 => ball.vel.y = 0.2,
+                    x if x < 75 && x >= 50 => ball.vel.y = -0.2,
+                    x if x < 50 && x >= 25 => ball.vel.y = -1.0,
+                    _ => ball.vel.y = -2.0,
                 }
                 println!("Velocity is {}", ball.vel.y);
             }
@@ -117,27 +108,16 @@ impl Game {
             if ball.shape.has_intersection(cpu.shape) && ball.vel.x > 0.0
             {
                 ball.vel.x *= -1.0;
-                if ball.shape.y() - cpu.shape.y() < 150 {
-                    ball.vel.y = 2.0;
-                }
-                if ball.shape.y() - cpu.shape.y() < 125 {
-                    ball.vel.y = 1.0;
-                }
-                if ball.shape.y() - cpu.shape.y() < 100 {
-                    ball.vel.y = 0.2;
-                }
-                if ball.shape.y() - cpu.shape.y() < 75 {
-                    ball.vel.y = -0.2;
-                }
-                if ball.shape.y() - cpu.shape.y() < 50 {
-                    ball.vel.y = -1.0;
-                }
-                if ball.shape.y() - cpu.shape.y() < 25 {
-                    ball.vel.y = -2.0;
+                match ball.shape.y() - cpu.shape.y() {
+                    x if x < 150 && x >= 125 => ball.vel.y = 2.0,
+                    x if x < 125 && x >= 100 => ball.vel.y = 1.0,
+                    x if x < 100 && x >= 75 => ball.vel.y = 0.2,
+                    x if x < 75 && x >= 50 => ball.vel.y = -0.2,
+                    x if x < 50 && x >= 25 => ball.vel.y = -1.0,
+                    _ => ball.vel.y = -2.0,
                 }
                 println!("Velocity is {}", ball.vel.y);
             }
-
 
             ball.update();
 
