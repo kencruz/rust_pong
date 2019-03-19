@@ -23,28 +23,20 @@ impl Game {
             .unwrap();
 
         let mut canvas = window.into_canvas().build().unwrap();
-        let texture_creator = canvas.texture_creator();
         let mut events = sdl_context.event_pump().unwrap();
 
         let mut player = Paddle::new(Position::Left);
         let mut cpu = Paddle::new(Position::Right);
         let mut ball = Ball::new();
-        let score = Rect::from_center(Point::new(400, 30), 100, 40);
 
+        // scoreboard initialization
+        let texture_creator = canvas.texture_creator();
+        let score = Rect::from_center(Point::new(400, 30), 100, 40);
         let path: &Path = Path::new("../droid.ttf");
         let ttf_context = sdl2::ttf::init().map_err(|e| e.to_string()).unwrap();
         let font = ttf_context.load_font(path, 64).unwrap();
-
-        let surface = font
-            .render("0 - 0")
-            .blended(Color::RGBA(255, 255, 255, 255))
-            .map_err(|e| e.to_string())
-            .unwrap();
-
-        let texture = texture_creator
-            .create_texture_from_surface(&surface)
-            .map_err(|e| e.to_string())
-            .unwrap();
+        let mut player_score = 0;
+        let mut cpu_score = 0;
 
         'running: loop {
             // event
@@ -75,24 +67,25 @@ impl Game {
                 player.shape.set_y(player.shape.top() - 5);
             }
 
-            if keys.contains(&Keycode::Down) && player.shape.y() + (player.shape.height() as i32) < 600 {
+            if keys.contains(&Keycode::Down)
+                && player.shape.y() + (player.shape.height() as i32) < 600
+            {
                 player.shape.set_y(player.shape.top() + 5);
             }
-
 
             // CPU AI
             if ball.shape.y() < cpu.shape.y() && ball.shape.x() > 300 {
                 cpu.shape.set_y(cpu.shape.top() - 3);
             }
 
-            if ball.shape.y() > cpu.shape.y() + (cpu.shape.height() as i32) && ball.shape.x() > 300 {
+            if ball.shape.y() > cpu.shape.y() + (cpu.shape.height() as i32) && ball.shape.x() > 300
+            {
                 cpu.shape.set_y(cpu.shape.top() + 3);
             }
 
             // change angle of ball when colliding with paddle
 
-            if ball.shape.has_intersection(player.shape) && ball.vel.x < 0.0
-            {
+            if ball.shape.has_intersection(player.shape) && ball.vel.x < 0.0 {
                 ball.vel.x *= -1.0;
                 match ball.shape.y() - player.shape.y() {
                     x if x < 150 && x >= 125 => ball.vel.y = 2.0,
@@ -105,8 +98,7 @@ impl Game {
                 println!("Velocity is {}", ball.vel.y);
             }
 
-            if ball.shape.has_intersection(cpu.shape) && ball.vel.x > 0.0
-            {
+            if ball.shape.has_intersection(cpu.shape) && ball.vel.x > 0.0 {
                 ball.vel.x *= -1.0;
                 match ball.shape.y() - cpu.shape.y() {
                     x if x < 150 && x >= 125 => ball.vel.y = 2.0,
@@ -119,8 +111,24 @@ impl Game {
                 println!("Velocity is {}", ball.vel.y);
             }
 
-            ball.update();
+            // scoreboard formatting and texture
+            let surface = font
+                .render(&format!("{} - {}", player_score, cpu_score))
+                .blended(Color::RGBA(255, 255, 255, 255))
+                .map_err(|e| e.to_string())
+                .unwrap();
 
+            let texture = texture_creator
+                .create_texture_from_surface(&surface)
+                .map_err(|e| e.to_string())
+                .unwrap();
+
+            // update scoreboard if ball goes out of bounds
+            match ball.update() {
+                1 => cpu_score += 1,
+                2 => player_score += 1,
+                _ => {},
+            }
             // render
             // background
             canvas.set_draw_color(Color::RGB(0, 0, 0));
