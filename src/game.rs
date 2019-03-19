@@ -125,9 +125,17 @@ impl Game {
 
             // update scoreboard if ball goes out of bounds
             match ball.update() {
-                1 => cpu_score += 1,
-                2 => player_score += 1,
-                _ => {},
+                1 => {
+                    cpu_score += 1;
+                    player.shape.set_y(225);
+                    cpu.shape.set_y(225);
+                }
+                2 => {
+                    player_score += 1;
+                    player.shape.set_y(225);
+                    cpu.shape.set_y(225);
+                }
+                _ => {}
             }
             // render
             // background

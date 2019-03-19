@@ -27,14 +27,16 @@ impl Ball {
 
     pub fn update(&mut self) -> u32 {
         if self.shape.center().x() < 0 {
-            self.vel.x *= -1.0;
-            self.shape.set_x(1);
-            self.coord.x = 1.0;
+            self.shape.set_x(400);
+            self.vel.y = 0.0;
+            self.coord.x = 400.0;
+            self.coord.y = 300.0;
             return 1;
         } else if self.shape.center().x() > 800 {
-            self.vel.x *= -1.0;
-            self.shape.set_x(795);
-            self.coord.x = 795.0;
+            self.shape.set_x(400);
+            self.vel.y = 0.0;
+            self.coord.x = 400.0;
+            self.coord.y = 300.0;
             return 2;
         } else if self.shape.center().y() < 0 {
             self.vel.y *= -1.0;
